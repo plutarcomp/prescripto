@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --corporation-blue: #5F6FFF;
+}
+
+.btn-blue:hover {
+    background-color: var(--corporation-blue);
+    color: white;
+    border: 1px solid white;
+ }
+
+.hr-bg {
+    background-color: var(--corporation-blue);
+}
