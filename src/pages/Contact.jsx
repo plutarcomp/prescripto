@@ -13,12 +13,14 @@ const Contact = () => {
       <img src={assets.contact_image} alt='Imagen Contact' className='w-full md:max-w-[360px]'/>
       <div className="flex flex-col justify-center items-start gap-6 text-base/10">
       <Address
+      // Estos parámentros, de momento, están hardcodeados; sin embargo, la intención que sean pasados a través del Contexto.
         PC={'06600'}
         street={'Av. Paseo de la Reforma 222'}
         city={'CDMX'}
         country={'México'}
       />
       <CareersDescript
+      // Estos parámentros, de momento, están hardcodeados; sin embargo, la intención que sean pasados a través del Contexto.
       description={'Aprende más acerca de nuestro equipo y nuestros empleos'}
       />
       </div>
