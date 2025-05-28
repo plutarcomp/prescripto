@@ -5,10 +5,11 @@ import { useNavigate, NavLink } from 'react-router-dom'
 const Navbar = () => {
     const navigate = useNavigate()
   return (
+    <>
     <div className='flex justify-between items-center py-4'>
         <img onClick={() => navigate('/')} src={assets.logo} alt='Logo Prescripto' className='w-44 cursor-pointer' />
         
-        <ul>
+        <ul className='inline-flex gap-3 font-semibold'>
             <NavLink to='/'>
                 <li className=''>HOME</li>
             </NavLink>
@@ -22,9 +23,12 @@ const Navbar = () => {
                 <li className=''>CONTACT</li>
             </NavLink>
         </ul>
+
         <button onClick={() => navigate('/Register')} className='bg-primary text-white px-8 py-3 rounded-full font-light hidden md:block'>Create account</button>
 
     </div>
+    <hr className='my-4'/>
+    </>
   )
 }
 
