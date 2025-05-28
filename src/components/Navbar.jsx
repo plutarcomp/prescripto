@@ -13,17 +13,19 @@ const Navbar = () => {
             <NavLink to='/'>
                 <li className=''>HOME</li>
             </NavLink>
-            <NavLink to='/about'>
+            <NavLink to='/doctors'>
                 <li className=''>ALL DOCTORS</li>
             </NavLink>
-            <NavLink to='/appointment'>
+            <NavLink to='/about'>
                 <li className=''>ABOUT</li>
             </NavLink>
             <NavLink to='/contact'>
                 <li className=''>CONTACT</li>
             </NavLink>
         </ul>
-        <button onClick={() => navigate('/login')} className='bg-primary text-white px-8 py-3 rounded-full font-light hidden md:block'>Create account</button>
+
+        <button onClick={() => navigate('/Register')} className='bg-primary text-white px-8 py-3 rounded-full font-light hidden md:block'>Create account</button>
+
     </div>
     <hr className='my-4'/>
     </>
