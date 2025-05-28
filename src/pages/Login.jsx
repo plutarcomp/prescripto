@@ -1,9 +1,13 @@
-import React from 'react'
+import AuthForm from '../components/AuthForm';
 
-const Login = () => {
-  return (
-    <div>Login</div>
-  )
-}
+const Login = () => (
+  <AuthForm
+    title="Login"
+    subtitle="Please log in to book appointment"
+    fields={['email', 'password']}
+    buttonText="Login"
+    footer={{ text: 'Create a new account?', linkTo: '/register', linkLabel: 'Click here' }}
+  />
+);
 
-export default Login
+export default Login;

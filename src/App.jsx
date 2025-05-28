@@ -8,6 +8,7 @@ import Appointment from './pages/Appointment'
 import NotFound from './pages/NotFound'
 import Doctors from './pages/Doctors'
 import Navbar from './components/Navbar'
+import Register from './pages/Register'
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path='/doctors/:specility' element={<Doctors />} />
         <Route path='/login' element={<Login />} />
         <Route path="*" element={<NotFound />} />
+        <Route path='/register' element={<Register />} />
       </Routes>
       <h3>Este es el pie de página</h3>
     </div>
