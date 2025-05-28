@@ -22,7 +22,7 @@ const Home = () => {
           </h2>
         </div>
         <div className="ml-10">
-          <Button text="Book appointment" imgSrc={assets.arrow_icon} imgAlt="Arrow icon" className="bg-white" />
+          <Button text="Book appointment" imgSrc={assets.arrow_icon} imgAlt="Arrow icon" className="bg-white" to="/Loging" />
         </div>
        
       </div>
@@ -126,7 +126,7 @@ const Home = () => {
       <ItemCard />
 
       <div className="ml-10 flex justify-center">
-        <Button className="pl-20 pr-20 bg-gray-100" text="more" />
+        <Button className="pl-20 pr-20 bg-gray-100" text="more" to="/Loging" />
       </div>
 
     </section>
@@ -141,7 +141,7 @@ const Home = () => {
           </h1>
           
           <div className="ml-10">
-          <Button text="Create account" className="pl-10 bg-white pr-4" />
+          <Button text="Create account" className="pl-10 bg-white pr-4" to="/Loging" />
         </div>
         </div>
 
