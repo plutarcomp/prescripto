@@ -4,8 +4,7 @@ import { assets } from "../assets/assets";
 const About = () => {
   return (
     <div className="px-6 py-16 md:px-24 font-sans text-gray-800">
-
-    
+      
       <div className="flex flex-wrap items-center justify-center gap-10 mb-16">
         <div className="max-w-md w-full">
           <img
@@ -39,30 +38,32 @@ const About = () => {
         </div>
       </div>
 
-      {/* Por qué elegirnos */}
+
       <div className="text-center">
         <h3 className="text-2xl font-semibold mb-10">
           WHY <span className="font-bold">CHOOSE US</span>
         </h3>
 
         <div className="flex flex-wrap justify-center gap-8">
-          <div className="bg-gray-100 p-6 rounded-lg shadow-md max-w-xs w-full text-center">
+          <div className="bg-gray-100 p-6 rounded-lg shadow-md max-w-xs w-full text-center 
+              transition duration-300 transform hover:scale-105 hover:bg-primary hover:text-white hover:shadow-xl">
             <h6 className="font-bold mb-2 text-lg">EFFICIENCY:</h6>
             <p>Streamlined appointment scheduling that fits into your busy lifestyle.</p>
           </div>
 
-          <div className="bg-gray-100 p-6 rounded-lg shadow-md max-w-xs w-full text-center">
+          <div className="bg-gray-100 p-6 rounded-lg shadow-md max-w-xs w-full text-center 
+              transition duration-300 transform hover:scale-105 hover:bg-primary hover:text-white hover:shadow-xl">
             <h6 className="font-bold mb-2 text-lg">CONVENIENCE:</h6>
             <p>Access to a network of trusted healthcare professionals in your area.</p>
           </div>
 
-          <div className="bg-gray-100 p-6 rounded-lg shadow-md max-w-xs w-full text-center">
+          <div className="bg-gray-100 p-6 rounded-lg shadow-md max-w-xs w-full text-center 
+              transition duration-300 transform hover:scale-105 hover:bg-primary hover:text-white hover:shadow-xl">
             <h6 className="font-bold mb-2 text-lg">PERSONALIZATION:</h6>
             <p>Tailored recommendations and reminders to help you stay on top of your health.</p>
           </div>
         </div>
       </div>
-
     </div>
   );
 };
