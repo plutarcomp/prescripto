@@ -2,6 +2,7 @@ import React from 'react'
 import { assets } from '../assets/assets'
 import Address from '../components/Address'
 import CareersDescript from '../components/CareersDescript'
+import ContactUs from '../components/ContactUs'
 
 const Contact = () => {
   return (
@@ -9,7 +10,7 @@ const Contact = () => {
     <div className='uppercase text-center font-semibold text-2xl pt-10 text-[#707070]'>
       Contáctanos
     </div>
-    <div className='my-10 flex flex-col justify-center md:flex-row gap-10 mb-28 text-sm'>
+    <div className='my-10 flex flex-col justify-center md:flex-row gap-10 mb-18 text-sm'>
       <img src={assets.contact_image} alt='Imagen Contact' className='w-full md:max-w-[360px]'/>
       <div className="flex flex-col justify-center items-start gap-6 text-base/10">
       <Address
@@ -25,6 +26,7 @@ const Contact = () => {
       />
       </div>
     </div>
+    <ContactUs />
     </>
   )
 }
