@@ -22,16 +22,44 @@ const Navbar = () => {
         />
 
         <ul className="inline-flex gap-3 font-semibold md:flex items-start gap-5 font-medium hidden">
-          <NavLink to="/">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "forced-colors:appearance-auto font-extrabold underline"
+                : ""
+            }
+          >
             <li className="">HOME</li>
           </NavLink>
-          <NavLink to="/doctors">
+          <NavLink
+            to="/doctors"
+            className={({ isActive }) =>
+              isActive
+                ? "forced-colors:appearance-auto font-extrabold underline"
+                : ""
+            }
+          >
             <li className="">ALL DOCTORS</li>
           </NavLink>
-          <NavLink to="/about">
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              isActive
+                ? "forced-colors:appearance-auto font-extrabold underline"
+                : ""
+            }
+          >
             <li className="">ABOUT</li>
           </NavLink>
-          <NavLink to="/contact">
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              isActive
+                ? "forced-colors:appearance-auto font-extrabold underline"
+                : ""
+            }
+          >
             <li className="">CONTACT</li>
           </NavLink>
         </ul>
@@ -64,23 +92,54 @@ const Navbar = () => {
               />
             </div>
             <ul className="gap-3 font-semibold md:flex items-center gap-5 font-medium cursor-pointer mt-10 mx-5">
-              <NavLink to="/">
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive
+                    ? "forced-colors:appearance-auto font-extrabold underline"
+                    : ""
+                }
+              >
                 <li className="">HOME</li>
               </NavLink>
-              <NavLink to="/doctors">
+              <NavLink
+                to="/doctors"
+                className={({ isActive }) =>
+                  isActive
+                    ? "forced-colors:appearance-auto font-extrabold underline"
+                    : ""
+                }
+              >
                 <li className="">ALL DOCTORS</li>
               </NavLink>
-              <NavLink to="/about">
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  isActive
+                    ? "forced-colors:appearance-auto font-extrabold underline"
+                    : ""
+                }
+              >
                 <li className="">ABOUT</li>
               </NavLink>
-              <NavLink to="/contact">
+              <NavLink
+                to="/contact"
+                className={({ isActive }) =>
+                  isActive
+                    ? "forced-colors:appearance-auto font-extrabold underline"
+                    : ""
+                }
+              >
                 <li className="">CONTACT</li>
               </NavLink>
             </ul>
           </div>
         </div>
         {isOpen && (
-            <div className="fixed inset-0 bg-black opacity-50 lg:hiden z-40" onClick={toggleMenu}></div>
+          <div
+            className="fixed inset-0 bg-black opacity-50 lg:hiden z-40"
+            onClick={toggleMenu}
+          ></div>
         )}
       </div>
       <hr className="my-4" />
