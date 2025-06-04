@@ -10,7 +10,6 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import AuthPage from './pages/AuthPage'
 
-
 const App = () => {
   return (
     <div className='mx-4 sm:mx-[10%]'>
@@ -25,7 +24,7 @@ const App = () => {
         <Route path='/auth' element={<AuthPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <h3>Este es el pie de página</h3>
+      <Footer />
     </div>
   )
 }

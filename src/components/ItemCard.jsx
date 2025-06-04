@@ -6,49 +6,49 @@ const doctorsData = [
   {
     id: 1,
     name: "Dr. John Doe",
-    profession: "Cardiologist",
+    profession: "Cardiologo",
     image: assets.doc1,
     available: true,
   },
   {
     id: 2,
     name: "Dr. Jane Smith",
-    profession: "Neurologist",
+    profession: "Neurólogo",
     image: assets.doc2,
     available: false,
   },
   {
     id: 3,
     name: "Dr. Alice Brown",
-    profession: "Dermatologist",
+    profession: "Dermatólogo",
     image: assets.doc3,
     available: true,
   },
   {
     id: 4,
     name: "Dr. Bob Johnson",
-    profession: "Pediatrician",
+    profession: "Pediatra",
     image: assets.doc4,
     available: false,
   },
   {
     id: 5,
     name: "Dr. Sarah Lee",
-    profession: "Orthopedist",
+    profession: "Ortopedista",
     image: assets.doc5,
     available: true,
   },
     {
     id: 6,
     name: "Dr. Emily Davis",
-    profession: "Gynecologist",
+    profession: "Ginecólogo",
     image: assets.doc6,
     available: true,
     },
     {
     id: 7,
     name: "Dr. Michael Wilson",
-    profession: "Gastroenterologist",
+    profession: "Gastroenterólogo",
     image: assets.doc7,
     available: false,
     },
@@ -62,14 +62,14 @@ const doctorsData = [
     {   
     id: 9,
     name: "Dr. Laura Garcia",
-    profession: "Ophthalmologist",
+    profession: "Endocrinólogo",
     image: assets.doc9,
     available: false,
     },
     {
     id: 10,
     name: "Dr. Daniel Rodriguez",
-    profession: "Urologist",
+    profession: "Urólogo",
     image: assets.doc10,
     available: true,
     },
@@ -81,7 +81,7 @@ const ItemCard = ({ name, profession, image, available }) => {
     <div className="bg-white shadow-lg rounded-xl  flex flex-col items-center border">
       <img src={image} alt={name} className="w-50 object-cover rounded-t-xl bg-gray-100"  />
       <p className={`self-start pl-4 pt-2 mt-2 text-m font-semibold ${available ? 'text-green-500' : 'text-red-500'}`}>
-      • {available ? "Available" : "Not Available"}
+      • {available ? "Disponible" : "No disponible"}
       </p>
       <h3 className="self-start pl-4 pt-2 text-xl font-semibold text-gray-800">{name}</h3>
       <p className="self-start pl-4 pt-2 pb-4 text-gray-600">{profession}</p>
