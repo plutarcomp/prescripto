@@ -31,9 +31,6 @@ const handleContact = (data) => {
 const ContactUs = () => {
   return (
     <>
-      <h1 className="uppercase text-center font-semibold text-xl pt-10 text-[#707070]">
-        Comunícate con nosotros
-      </h1>
       <div className="my-10 flex flex-col justify-center md:flex-row gap-10 mb-18 text-sm">
         <Formik
           initialValues={{
@@ -53,7 +50,7 @@ const ContactUs = () => {
                     htmlFor="firstName"
                     className="block text-sm/6 font-medium text-gray-900"
                   >
-                    First name
+                    Primer nombre
                   </label>
                   <div className="mt-2 border-2 rounded-md">
                     <input
@@ -77,7 +74,7 @@ const ContactUs = () => {
                     htmlFor="lastName"
                     className="block text-sm/6 font-medium text-gray-900"
                   >
-                    Last name
+                    Segundo nombre
                   </label>
                   <div className="mt-2 border-2 rounded-md">
                     <input

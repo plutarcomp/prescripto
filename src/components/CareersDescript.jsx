@@ -4,7 +4,7 @@ import Button from './Button'
 const CareersDescript = ({description}) => {
   return (
 
-    <div>
+    <div className='justify-items-center'>
         <p className='uppercase font-semibold text-lg text-gray-600 my-4'>Carrera en Prescipto</p>
         <p className="text-gray-500 ">
             {description}
