@@ -24,7 +24,12 @@ const Navbar = () => {
             </NavLink>
         </ul>
 
-        <button onClick={() => navigate('/Register')} className='bg-primary text-white px-8 py-3 rounded-full font-light hidden md:block'>Create account</button>
+        <button
+          onClick={() => navigate("/auth")}
+          className="bg-primary text-white px-8 py-3 rounded-full font-light hidden md:block"
+        >
+          Create account
+        </button>
 
     </div>
     <hr className='my-4'/>
