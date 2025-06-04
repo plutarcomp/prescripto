@@ -65,7 +65,9 @@ const Navbar = () => {
         </ul>
 
         <button
-          onClick={() => navigate("/Register")}
+       loginform
+          onClick={() => navigate("/auth")}
+
           className="bg-primary text-white px-8 py-3 rounded-full font-light hidden md:block"
         >
           Create account
