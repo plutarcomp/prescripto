@@ -4,6 +4,7 @@ import { assets } from '../assets/assets';
 import Button from '../components/Button';
 import ItemCard from '../components/ItemCard';
 import SpecialtySection from '../components/SpecialtySection'; 
+import DoctorSection from '../components/DoctorSection';
 
 const Home = () => {
   return (
@@ -47,7 +48,7 @@ const Home = () => {
           Simplemente navegue a través de nuestra extensa lista de médicos de confianza.
         </h2>
 
-        <ItemCard />
+        <DoctorSection />
 
         <div className="ml-10 flex justify-center">
           <Button className="pl-20 pr-20 bg-gray-100" text="more" to="#" />
