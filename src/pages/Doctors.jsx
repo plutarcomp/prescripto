@@ -2,18 +2,27 @@ import { useEffect, useState } from "react";
 import ItemCard from "../components/ItemCard";
 import axios from "axios";
 import Filter from "../components/Filter";
+import { useLocation } from "react-router-dom";
 
 const Doctors = () => {
   const [allDoctors, setAllDoctors] = useState([]);
   const [specialties, setSpecialties] = useState([]);
   // const [filterDoctors, setFilterDoctors] = useState([]);
   const [selectedSpecialties, setSelectedSpecialties] = useState([]);
+  const location = useLocation();
   const [error, setError] = useState(null);
 
   useEffect(() => {
     getAllDoctors();
     getSpecialties();
-  }, []);
+
+    const query = new URLSearchParams(location.search);
+    const especialidad_URL = query.get("specialties");
+
+    if (especialidad_URL) {
+      setSelectedSpecialties([especialidad_URL]);
+    }
+  }, [location.search]);
 
   const getAllDoctors = async () => {
     const response = await axios
@@ -57,9 +66,7 @@ const Doctors = () => {
 
   const toggleSpeciality = (speciality) => {
     setSelectedSpecialties((prev) =>
-      prev.includes(speciality)
-        ? prev.filter((s) => s !== speciality)
-        : [...prev, speciality]
+      prev[0] === speciality ? [] : [speciality]
     );
   };
 
@@ -111,6 +118,26 @@ const Doctors = () => {
       </div>
 
       <div className="flex flex-col sm:flex-row items-start gap-5 mt-5">
+        <div className="block sm:hidden w-full px-6 mb-4">
+          <select
+            value={selectedSpecialties[0] || ""}
+            onChange={(esp) =>
+              setSelectedSpecialties(esp.target.value ? [esp.target.value] : [])
+            }
+            className="w-full border border-gray-300 rounded px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400"
+          >
+            <option value="">Selecciona una especialidad</option>
+            {specialties.map((especialidad) => (
+              <option
+                key={especialidad.specialty_id}
+                value={especialidad.specialty_name}
+              >
+                {especialidad.specialty_name}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <div className="flex-col gap-4 text-sm text-gray-600 hidden sm:flex py-5">
           {specialties.map((especialidad) => (
             <p
@@ -128,14 +155,13 @@ const Doctors = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 py-5 px-6">
-          {console.log("Filtered Dr", filteredDoctors)}
           {filteredDoctors.length > 0 ? (
             filteredDoctors.map((doctor) => (
               <ItemCard
                 key={doctor.doctor_id}
                 name={doctor.first_name}
                 second_name={doctor.last_name}
-                profession={doctor.specialties[0]}
+                profession={doctor.specialties}
                 image={doctor.image[0]}
                 available={doctor.availability}
               />
