@@ -15,10 +15,14 @@ const ItemCard = ({ name, second_name, profession, image, available }) => {
       >
         • {available ? "Disponible" : "No disponible"}
       </p>
-      <h3 className="self-start pl-4 pt-2 text-xl font-semibold text-gray-800">
+      <h3 className="self-start pl-4 pt-2 pb-4 text-xl font-semibold text-gray-800">
         {'Dr. ' + name + ' '+ second_name}
       </h3>
-      <p className="self-start pl-4 pt-2 pb-4 text-gray-600">{profession}</p>
+      {profession.map((prof) =>(
+        <p 
+        key={prof}
+        className="self-start pl-4 pb-2 text-gray-600">{prof}</p>
+        ))}
     </div>
   )
 }

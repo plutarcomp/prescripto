@@ -113,7 +113,7 @@ const DoctorSection = () => {
               key={doctor.doctor_id}
               name={doctor.first_name}
               second_name={doctor.last_name}
-              profession={doctor.specialties[0]}
+              profession={doctor.specialties}
               image={doctor.image[0]}
               available={doctor.availability}
             />

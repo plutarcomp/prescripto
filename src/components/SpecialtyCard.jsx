@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const SpecialtyCard = ({ image, alt, label }) => {
-  const url = `/doctors/${label
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '') // quita acentos
-    .replace(/\s+/g, '-') // reemplaza espacios por guiones
-    .replace(/[^a-z0-9\-]/g, '') // quita otros caracteres especiales
+  const url = `/doctors/?specialties=${label
+    // .toLowerCase()
+    // .normalize('NFD')
+    // .replace(/[\u0300-\u036f]/g, '') // quita acentos
+    // .replace(/\s+/g, '-') // reemplaza espacios por guiones
+    // .replace(/[^a-z0-9\-]/g, '') // quita otros caracteres especiales
   }`;
   return (
     <Link to={url} className="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform duration-200">
