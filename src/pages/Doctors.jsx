@@ -142,7 +142,7 @@ const Doctors = () => {
           {specialties.map((especialidad) => (
             <p
               key={especialidad.specialty_id}
-              className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-colors duration-300 cursor-pointer hover:bg-gray-200 ${
+              className={`w-full sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-colors duration-300 cursor-pointer hover:bg-gray-200 ${
                 selectedSpecialties === especialidad.specialty_name
                   ? "bg-gray-300"
                   : ""
