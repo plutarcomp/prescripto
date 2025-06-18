@@ -2,79 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ItemCard from "./ItemCard";
 
-// const doctorsData = [
-//   {
-//     id: 1,
-//     name: "Dr. John Doe",
-//     profession: "Cardiologo",
-//     image: assets.doc1,
-//     available: true,
-//   },
-//   {
-//     id: 2,
-//     name: "Dr. Jane Smith",
-//     profession: "Neurólogo",
-//     image: assets.doc2,
-//     available: false,
-//   },
-//   {
-//     id: 3,
-//     name: "Dr. Alice Brown",
-//     profession: "Dermatólogo",
-//     image: assets.doc3,
-//     available: true,
-//   },
-//   {
-//     id: 4,
-//     name: "Dr. Bob Johnson",
-//     profession: "Pediatra",
-//     image: assets.doc4,
-//     available: false,
-//   },
-//   {
-//     id: 5,
-//     name: "Dr. Sarah Lee",
-//     profession: "Ortopedista",
-//     image: assets.doc5,
-//     available: true,
-//   },
-//     {
-//     id: 6,
-//     name: "Dr. Emily Davis",
-//     profession: "Ginecólogo",
-//     image: assets.doc6,
-//     available: true,
-//     },
-//     {
-//     id: 7,
-//     name: "Dr. Michael Wilson",
-//     profession: "Gastroenterólogo",
-//     image: assets.doc7,
-//     available: false,
-//     },
-//     {
-//     id: 8,
-//     name: "Dr. David Martinez",
-//     profession: "Endocrinologist",
-//     image: assets.doc8,
-//     available: true,
-//     },
-//     {
-//     id: 9,
-//     name: "Dr. Laura Garcia",
-//     profession: "Endocrinólogo",
-//     image: assets.doc9,
-//     available: false,
-//     },
-//     {
-//     id: 10,
-//     name: "Dr. Daniel Rodriguez",
-//     profession: "Urólogo",
-//     image: assets.doc10,
-//     available: true,
-//     },
 
-// ];
 
 const DoctorSection = () => {
   const [allDoctors, setAllDoctors] = useState([]);
@@ -84,9 +12,10 @@ const DoctorSection = () => {
     getAllDoctors();
   }, []);
 
+  const backendUrl = import.meta.env.VITE_API_BACKEND_URL;
   const getAllDoctors = async () => {
     const response = await axios
-      .get("http://localhost:3000/api/doctors")
+      .get(`${backendUrl}/api/doctors`)
       .then((response) => {
         console.log("Datos del response", response);
         if (response.status === 200) {
