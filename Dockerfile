@@ -10,11 +10,14 @@ COPY package*.json ./
 # Instala las dependencias
 RUN npm install
 
+# Copia el archivo .env al contenedor
+COPY .env .env
+
 # Copia el resto del código fuente al contenedor
 COPY . .
 
-# Exponemos el puerto en el que el servidor de desarrollo va a estar corriendo
-EXPOSE 3000
+# Exponemos el puerto en el que el frontend de Vite va a estar corriendo
+EXPOSE 5173
 
-# El comando para levantar la aplicación en modo de desarrollo
-CMD ["npm", "run", "dev"]
+# El comando para iniciar la aplicación en modo desarrollo de Vite
+CMD ["npm", "run", "dev", "--", "--host"]
