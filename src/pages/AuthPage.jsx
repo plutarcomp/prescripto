@@ -34,6 +34,7 @@ const AuthPage = () => {
       }}
       formikRef={formikRef}
       setEsLogin={setEsLogin} // Pasar la función setEsLogin como prop
+      esLogin={esLogin}
     />
   );
 };
