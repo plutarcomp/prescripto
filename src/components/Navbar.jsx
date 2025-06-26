@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import { assets } from "../assets/assets";
 import { useNavigate, NavLink } from "react-router-dom";
+import { AuthContext } from "../pages/AuthContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const { user, logout } = useContext(AuthContext);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -63,6 +66,8 @@ const Navbar = () => {
             <li className="">CONTACT</li>
           </NavLink>
         </ul>
+
+        {user ? (<><p>Bienvenido, {user.first_name}</p><button onClick={logout}>Cerrar sesión</button></>) : (<button> Iniciar Sesión</button>)}
 
         <button
        loginform

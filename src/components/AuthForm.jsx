@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../pages/AuthContext";
 
 const AuthForm = ({
   title,
@@ -11,7 +12,8 @@ const AuthForm = ({
   buttonText,
   footer,
   formikRef,
-  setEsLogin
+  setEsLogin,
+  esLogin,
 }) => {
   const [verPassword, setVerPassword] = useState(false);
   const [loading, setLoading] = useState(false); // Para manejar el estado de carga
@@ -19,7 +21,8 @@ const AuthForm = ({
   const backendUrl = import.meta.env.VITE_API_BACKEND_URL;
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  
+  const { login } = useContext(AuthContext); //Importamos la función para almacenar datos del Login
+
   // Esquema de validación con Yup
   const validationSchema = Yup.object({
     ...(fields.includes("nombre") && {
@@ -52,9 +55,15 @@ const AuthForm = ({
         "Debe contener al menos un carácter especial"
       )
       .required("La contraseña es obligatoria"),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), null], "Las contraseñas no coinciden, favor de verificar")
-      .required("La confirmación de la contraseña es obligatoria"),
+    ...(fields.includes("confirmPassword") &&
+      !esLogin && {
+        confirmPassword: Yup.string()
+          .oneOf(
+            [Yup.ref("password"), null],
+            "Las contraseñas no coinciden, favor de verificar"
+          )
+          .required("La confirmación de la contraseña es obligatoria"),
+      }),
     ...(fields.includes("role_id") && {
       role_id: Yup.string().required("El rol es obligatorio"),
     }),
@@ -72,50 +81,74 @@ const AuthForm = ({
     ...(fields.includes("apellido_materno") && { apellido_materno: "" }),
     email: "",
     password: "",
-    confirmPassword: "",  // Agregar confirmación de contraseña
-    ...(fields.includes("role_id") && { role_id: "2" }),  // Role oculto con valor 2
+    confirmPassword: "", // Agregar confirmación de contraseña
+    ...(fields.includes("role_id") && { role_id: "2" }), // Role oculto con valor 2
     ...(fields.includes("phone_number") && { phone_number: "" }),
   };
 
   const handleSubmit = async (values) => {
     setLoading(true); // Activar estado de carga
     setError(""); // Limpiar cualquier error anterior
-  
+
     const backendUrl = import.meta.env.VITE_API_BACKEND_URL;
-  
-    try {
-      // Enviar los datos a la API de registro
-      const response = await axios.post(`${backendUrl}/api/auth/register`, {
-        email: values.email,
-        password: values.password,
-        first_name: values.nombre,
-        last_name: values.apellido_paterno, 
-        role_id: 2,  // Valor fijo para el rol (por ejemplo, "2" para el rol de usuario)
-        phone_number: values.phone_number,
-      });
-  
-      // Si la respuesta es exitosa, mostramos el modal de éxito
-      setShowModal(true);
-    } catch (err) {
-      // Depurar el error en la consola para ver cómo está estructurado
-      console.error("Error al registrar: ", err.response);
-    
-      // Verificar si el error es un error 400
-      if (err.response && err.response.status === 400) {
-        console.log("Detalles del error 400:", err.response.data);
-    
-        // Acceder directamente a 'mensaje' en la respuesta del error
-        if (err.response.data && err.response.data.mensaje) {
-          setError(err.response.data.mensaje); // Mostrar el mensaje del backend (correo ya registrado)
+    console.log("values", values);
+    if (esLogin) {
+      // Recibir los datos del Login
+      const response = await axios
+        .post(`${backendUrl}/api/auth/login`, {
+          email: values.email,
+          password: values.password,
+        })
+        .then((response) => {
+          console.log("Datos del user", response);
+          if (response.status === 200) {
+            console.log("User fetched successfully:", response.data);
+            login(response.data.user);
+            navigate('/home');
+          } else if (response.status === 404) {
+            console.error("No user found");
+            throw new Error("No user found");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching doctors:", error);
+          setError("Error fetching doctos");
+        });
+      return response;
+    } else {
+      try {
+        // Enviar los datos a la API de registro
+        const response = await axios.post(`${backendUrl}/api/auth/register`, {
+          email: values.email,
+          password: values.password,
+          first_name: values.nombre,
+          last_name: values.apellido_paterno,
+          role_id: 2, // Valor fijo para el rol (por ejemplo, "2" para el rol de usuario)
+          phone_number: values.phone_number,
+        });
+
+        // Si la respuesta es exitosa, mostramos el modal de éxito
+        setShowModal(true);
+      } catch (err) {
+        // Depurar el error en la consola para ver cómo está estructurado
+        console.error("Error al registrar: ", err.response);
+
+        // Verificar si el error es un error 400
+        if (err.response && err.response.status === 400) {
+          console.log("Detalles del error 400:", err.response.data);
+
+          // Acceder directamente a 'mensaje' en la respuesta del error
+          if (err.response.data && err.response.data.mensaje) {
+            setError(err.response.data.mensaje); // Mostrar el mensaje del backend (correo ya registrado)
+          } else {
+            setError("Hubo un error al registrar. Intenta nuevamente.");
+          }
         } else {
           setError("Hubo un error al registrar. Intenta nuevamente.");
         }
-      } else {
-        setError("Hubo un error al registrar. Intenta nuevamente.");
       }
     }
   };
-
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
@@ -148,7 +181,9 @@ const AuthForm = ({
                 />
                 {touched.nombre && errors.nombre && (
                   <ul className="mb-2 ml-2 text-xs">
-                    <li className="text-red-500">• Escribe tu nombre o nombres</li>
+                    <li className="text-red-500">
+                      • Escribe tu nombre o nombres
+                    </li>
                   </ul>
                 )}
               </>
@@ -170,7 +205,9 @@ const AuthForm = ({
                 />
                 {touched.apellido_paterno && errors.apellido_paterno && (
                   <ul className="mb-2 ml-2 text-xs">
-                    <li className="text-red-500">• Escribe tu apellido paterno</li>
+                    <li className="text-red-500">
+                      • Escribe tu apellido paterno
+                    </li>
                   </ul>
                 )}
               </>
@@ -192,7 +229,9 @@ const AuthForm = ({
                 />
                 {touched.apellido_materno && errors.apellido_materno && (
                   <ul className="mb-2 ml-2 text-xs">
-                    <li className="text-red-500">• Escribe tu apellido materno</li>
+                    <li className="text-red-500">
+                      • Escribe tu apellido materno
+                    </li>
                   </ul>
                 )}
               </>
@@ -205,7 +244,11 @@ const AuthForm = ({
               type="email"
               className="border border-[#DADADA] rounded w-full p-2 mt-1"
             />
-            <ErrorMessage name="email" component="span" className="text-red-500 text-xs" />
+            <ErrorMessage
+              name="email"
+              component="span"
+              className="text-red-500 text-xs"
+            />
 
             {/* Contraseña */}
             <label htmlFor="password">Contraseña</label>
@@ -224,34 +267,46 @@ const AuthForm = ({
                 {verPassword ? "Ocultar" : "Ver"}
               </button>
             </div>
-            <ErrorMessage name="password" component="span" className="text-red-500 text-xs" />
+            <ErrorMessage
+              name="password"
+              component="span"
+              className="text-red-500 text-xs"
+            />
             {touched.password && errors.password && (
               <ul className="mb-2 ml-2 text-xs">
                 <li className="text-red-500">• Al menos 8 caracteres</li>
                 <li className="text-red-500">• Al menos una mayúscula</li>
                 <li className="text-red-500">• Al menos un número</li>
-                <li className="text-red-500">• Al menos un carácter especial</li>
+                <li className="text-red-500">
+                  • Al menos un carácter especial
+                </li>
               </ul>
             )}
 
             {/* Confirmar Contraseña */}
-            <label htmlFor="confirmPassword">Confirmar Contraseña</label>
-            <div className="relative w-full">
-              <Field
-                name="confirmPassword"
-                type={verPassword ? "text" : "password"}
-                className="border border-[#DADADA] rounded w-full p-2 mt-1 pr-10"
-              />
-              <ErrorMessage
-                name="confirmPassword"
-                component="span"
-                className="text-red-500 text-xs"
-              />
-            </div>
-            {touched.confirmPassword && errors.confirmPassword && (
-              <ul className="mb-2 ml-2 text-xs">
-                <li className="text-red-500">• Las contraseñas no coinciden, verificar</li>
-              </ul>
+            {fields.includes("confirmPassword") && (
+              <>
+                <label htmlFor="confirmPassword">Confirmar Contraseña</label>
+                <div className="relative w-full">
+                  <Field
+                    name="confirmPassword"
+                    type={verPassword ? "text" : "password"}
+                    className="border border-[#DADADA] rounded w-full p-2 mt-1 pr-10"
+                  />
+                  <ErrorMessage
+                    name="confirmPassword"
+                    component="span"
+                    className="text-red-500 text-xs"
+                  />
+                </div>
+                {touched.confirmPassword && errors.confirmPassword && (
+                  <ul className="mb-2 ml-2 text-xs">
+                    <li className="text-red-500">
+                      • Las contraseñas no coinciden, verificar
+                    </li>
+                  </ul>
+                )}
+              </>
             )}
 
             {/* Número de Teléfono */}
@@ -270,7 +325,9 @@ const AuthForm = ({
                 />
                 {touched.phone_number && errors.phone_number && (
                   <ul className="mb-2 ml-2 text-xs">
-                    <li className="text-red-500">• El número de teléfono debe ser numérico</li>
+                    <li className="text-red-500">
+                      • El número de teléfono debe ser numérico
+                    </li>
                   </ul>
                 )}
               </>
@@ -296,7 +353,10 @@ const AuthForm = ({
                   {footer.linkLabel}
                 </a>
               ) : (
-                <Link to={footer.linkTo} className="text-primary hover:underline">
+                <Link
+                  to={footer.linkTo}
+                  className="text-primary hover:underline"
+                >
                   {footer.linkLabel}
                 </Link>
               )}
@@ -308,14 +368,18 @@ const AuthForm = ({
       {showModal && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg w-80 sm:w-96">
-            <h2 className="text-xl font-semibold text-blue-600">¡Registro Exitoso!</h2>
-            <p className="text-sm text-gray-600 mt-2">Tu cuenta ha sido registrada con éxito.</p>
+            <h2 className="text-xl font-semibold text-blue-600">
+              ¡Registro Exitoso!
+            </h2>
+            <p className="text-sm text-gray-600 mt-2">
+              Tu cuenta ha sido registrada con éxito.
+            </p>
             <button
-               onClick={() => {
+              onClick={() => {
                 setEsLogin(true); // Cambiar el estado a "esLogin" para mostrar el formulario de login
-                localStorage.setItem('isLogin', true); // Guardamos el estado en localStorage
+                localStorage.setItem("isLogin", true); // Guardamos el estado en localStorage
                 window.location.reload(); // Refrescar la página para actualizar el estado
-              }} 
+              }}
               className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
             >
               Aceptar
