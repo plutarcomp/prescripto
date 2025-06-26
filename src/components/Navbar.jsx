@@ -67,16 +67,35 @@ const Navbar = () => {
           </NavLink>
         </ul>
 
-        {user ? (<><p>Bienvenido, {user.first_name}</p><button onClick={logout}>Cerrar sesión</button></>) : (<button> Iniciar Sesión</button>)}
-
-        <button
-       loginform
-          onClick={() => navigate("/auth")}
-
-          className="bg-primary text-white px-8 py-3 rounded-full font-light hidden md:block"
-        >
-          Create account
-        </button>
+        {user ? (
+          <>
+            <p>Bienvenido, {user.first_name}</p>
+            <button
+              onClick={logout}
+              className="grid justify-items-start px-2 my-5 py-4 border rounded-none hover:bg-black hover:text-white transition-all duration-500"
+            >
+              Cerrar sesión
+            </button>
+          </>
+        ) : (
+          <>
+            <button
+              onClick={() => navigate("/auth")}
+              className="bg-primary text-white px-4 py-3 rounded-full font-light hidden md:block"
+            >
+              Iniciar Sesión
+            </button>
+            <button
+              loginform
+              onClick={() => {
+                localStorage.setItem("isLogin", true);
+                navigate("/auth")}}
+              className={`bg-primary text-white px-8 py-3 rounded-full font-light md:block`}
+            >
+              Create account
+            </button>
+          </>
+        )}
 
         <div className="flex justify-end items-center gap-4 ">
           <img

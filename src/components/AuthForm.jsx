@@ -104,7 +104,7 @@ const AuthForm = ({
           if (response.status === 200) {
             console.log("User fetched successfully:", response.data);
             login(response.data.user);
-            navigate('/home');
+            navigate("/");
           } else if (response.status === 404) {
             console.error("No user found");
             throw new Error("No user found");
