@@ -23,7 +23,7 @@ const Home = () => {
             </h2>
           </div>
           <div className="ml-10">
-            <Button text="Reservar cita" imgSrc={assets.arrow_icon} imgAlt="Arrow icon" className="bg-white" to="#" />
+            <Button text="Reservar cita" imgSrc={assets.arrow_icon} imgAlt="Arrow icon" className="bg-white" to="/auth?esLogin=true" />
           </div>
         </div>
         <div className="w-1/2">
@@ -48,10 +48,10 @@ const Home = () => {
           Simplemente navegue a través de nuestra extensa lista de médicos de confianza.
         </h2>
 
-        <DoctorSection />
+        <DoctorSection limit={10} />
 
         <div className="ml-10 flex justify-center">
-          <Button className="pl-20 pr-20 bg-gray-100" text="more" to="#" />
+          <Button className="pl-20 pr-20 bg-gray-100" text="more" to="/doctors" />
         </div>
       </section>
 
@@ -63,7 +63,7 @@ const Home = () => {
               Reserva una cita con más de 100 médicos de confianza
             </h1>
             <div className="ml-10">
-              <Button text="Crear cuenta" className="pl-10 bg-white pr-4" to="#" />
+              <Button text="Crear cuenta" className="pl-10 bg-white pr-4" to="/auth" />
             </div>
           </div>
 
