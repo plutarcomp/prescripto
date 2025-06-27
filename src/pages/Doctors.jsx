@@ -4,6 +4,8 @@ import axios from "axios";
 import Filter from "../components/Filter";
 import { useLocation } from "react-router-dom";
 
+const backendUrl = import.meta.env.VITE_API_BACKEND_URL;
+
 const Doctors = () => {
   const [allDoctors, setAllDoctors] = useState([]);
   const [specialties, setSpecialties] = useState([]);
@@ -26,7 +28,7 @@ const Doctors = () => {
 
   const getAllDoctors = async () => {
     const response = await axios
-      .get("http://localhost:3000/api/doctors")
+      .get(`${backendUrl}/api/doctors`)
       .then((response) => {
         console.log("Datos del response", response);
         if (response.status === 200) {
@@ -46,7 +48,7 @@ const Doctors = () => {
 
   const getSpecialties = async () => {
     const response = await axios
-      .get("http://localhost:3000/api/specialties")
+      .get(`${backendUrl}/api/specialties`)
       .then((response) => {
         console.log("Datos del response", response);
         if (response.status === 200) {

@@ -25,8 +25,9 @@ useEffect(() => {
   console.log('Specialties state updated:', specialties);
 }, [specialties]);
 
+const backendUrl = import.meta.env.VITE_API_BACKEND_URL;
 const getSpecialities = async () => {
-  const response = await axios.get('http://localhost:3000/api/specialties')
+  const response = await axios.get(`${backendUrl}/api/specialties`)
     .then(response => {
       console.log('Datos del response',response);
       if (response.status === 200) {
