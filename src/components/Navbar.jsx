@@ -33,7 +33,7 @@ const Navbar = () => {
                 : ""
             }
           >
-            <li className="">HOME</li>
+            <li className="">INICIO</li>
           </NavLink>
           <NavLink
             to="/doctors"
@@ -43,7 +43,7 @@ const Navbar = () => {
                 : ""
             }
           >
-            <li className="">ALL DOCTORS</li>
+            <li className="">DOCTORES</li>
           </NavLink>
           <NavLink
             to="/about"
@@ -53,7 +53,7 @@ const Navbar = () => {
                 : ""
             }
           >
-            <li className="">ABOUT</li>
+            <li className="">NOSOTROS</li>
           </NavLink>
           <NavLink
             to="/contact"
@@ -63,7 +63,7 @@ const Navbar = () => {
                 : ""
             }
           >
-            <li className="">CONTACT</li>
+            <li className="">CONTACTO</li>
           </NavLink>
         </ul>
 
@@ -92,7 +92,7 @@ const Navbar = () => {
                 navigate("/auth")}}
               className={`bg-primary text-white px-8 py-3 rounded-full font-light md:block`}
             >
-              Create account
+              Crear cuenta
             </button>
           </>
         )}
