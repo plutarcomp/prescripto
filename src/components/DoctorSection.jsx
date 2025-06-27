@@ -2,35 +2,35 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ItemCard from "./ItemCard";
 
-
-
-const DoctorSection = () => {
+const DoctorSection = ({ limit }) => {
   const [allDoctors, setAllDoctors] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     getAllDoctors();
-  }, []);
+  }, [limit]); // Dependemos de `limit`, así que si cambia, se vuelve a ejecutar
 
   const backendUrl = import.meta.env.VITE_API_BACKEND_URL;
+
   const getAllDoctors = async () => {
-    const response = await axios
-      .get(`${backendUrl}/api/doctors`)
-      .then((response) => {
-        console.log("Datos del response", response);
-        if (response.status === 200) {
-          console.log("Doctors fetched successfully:", response.data);
-          setAllDoctors(response.data);
-        } else if (response.status === 404) {
-          console.error("No doctors found");
-          throw new Error("No doctos found");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching doctors:", error);
-        setError("Error fetching doctos");
+    try {
+      const response = await axios.get(`${backendUrl}/api/doctors`, {
+        params: {
+          limit: limit || 0,  // Si no se pasa límite, no hay límite
+        },
       });
-    return response;
+
+      if (response.status === 200) {
+        console.log("Doctors fetched successfully:", response.data);
+        setAllDoctors(response.data);
+      } else if (response.status === 404) {
+        console.error("No doctors found");
+        setError("No doctors found");
+      }
+    } catch (error) {
+      console.error("Error fetching doctors:", error);
+      setError("Error fetching doctors");
+    }
   };
 
   return (
