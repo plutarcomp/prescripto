@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
 import { assets } from "../assets/assets";
 import { useNavigate, NavLink } from "react-router-dom";
-import { AuthContext } from "../pages/AuthContext";
+import { AuthContext } from "../context/AuthContext";
+import UserMenu from "./UserMenu";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -68,36 +69,29 @@ const Navbar = () => {
         </ul>
 
         {user ? (
-          <>
-            <p>Bienvenido, {user.first_name}</p>
-            <button
-              onClick={logout}
-              className="grid justify-items-start px-2 my-5 py-4 border rounded-none hover:bg-black hover:text-white transition-all duration-500"
-            >
-              Cerrar sesión
-            </button>
-          </>
+          <div className="justify-self-end hidden md:block">
+            <UserMenu />
+          </div>
         ) : (
-          <>
+          <div className="flex flex-row justify-end">
             <button
-              onClick={() => navigate("/auth")}
-              className="bg-primary text-white px-4 py-3 rounded-full font-light hidden md:block"
+              onClick={() => navigate("/auth?mode=login")}
+              className="bg-primary text-white px-4 py-3 m-1 rounded-full font-light hidden md:block"
             >
               Iniciar Sesión
             </button>
             <button
-              loginform
               onClick={() => {
-                localStorage.setItem("isLogin", true);
-                navigate("/auth")}}
-              className={`bg-primary text-white px-8 py-3 rounded-full font-light md:block`}
+                navigate("/auth?mode=register");
+              }}
+              className={`bg-primary text-white px-8 py-3 m-1 rounded-full font-light hidden md:block`}
             >
               Crear cuenta
             </button>
-          </>
+          </div>
         )}
 
-        <div className="flex justify-end items-center gap-4 ">
+        <div className="flex md:hidden justify-end items-center gap-4 ">
           <img
             src={assets.menu_icon}
             alt="Icono Menú"
@@ -117,6 +111,56 @@ const Navbar = () => {
                 onClick={toggleMenu}
               />
             </div>
+
+            {user ? (
+              <div className="px-5 mt-4">
+                <div className="flex items-center gap-3 mb-4">
+                  <img
+                    src={user.profileImage || "/default-avatar.png"}
+                    alt="avatar"
+                    className="w-10 h-10 rounded-full object-cover border"
+                  />
+                  <p className="text-sm font-medium">{user.first_name}</p>
+                </div>
+                <ul className="flex flex-col gap-3 text-sm">
+                  <NavLink
+                    to="/perfil"
+                    onClick={toggleMenu}
+                    className={({ isActive }) => (isActive ? "underline" : "")}
+                  >
+                    <li className="hover:underline">Mi perfil</li>
+                  </NavLink>
+                  <NavLink
+                    to="/citas"
+                    onClick={toggleMenu}
+                    className={({ isActive }) => (isActive ? "underline" : "")}
+                  >
+                    <li className="hover:underline">Mis citas</li>
+                  </NavLink>
+                  <button
+                    onClick={() => {
+                      logout();
+                      toggleMenu();
+                      navigate("/login");
+                    }}
+                    className="text-left text-red-600"
+                  >
+                    Cerrar sesión
+                  </button>
+                </ul>
+              </div>
+            ) : (
+              <button
+                onClick={() => {
+                  toggleMenu();
+                  navigate("/auth");
+                }}
+                className="ml-5 mt-4 bg-primary text-white px-4 py-2 rounded-full"
+              >
+                Iniciar Sesión
+              </button>
+            )}
+
             <ul className="gap-3 font-semibold md:flex items-center gap-5 font-medium cursor-pointer mt-10 mx-5">
               <NavLink
                 to="/"
@@ -126,7 +170,7 @@ const Navbar = () => {
                     : ""
                 }
               >
-                <li className="">HOME</li>
+                <li className="hover:underline">HOME</li>
               </NavLink>
               <NavLink
                 to="/doctors"
@@ -136,7 +180,7 @@ const Navbar = () => {
                     : ""
                 }
               >
-                <li className="">ALL DOCTORS</li>
+                <li className="hover:underline">ALL DOCTORS</li>
               </NavLink>
               <NavLink
                 to="/about"
@@ -146,7 +190,7 @@ const Navbar = () => {
                     : ""
                 }
               >
-                <li className="">ABOUT</li>
+                <li className="hover:underline">ABOUT</li>
               </NavLink>
               <NavLink
                 to="/contact"
@@ -156,7 +200,7 @@ const Navbar = () => {
                     : ""
                 }
               >
-                <li className="">CONTACT</li>
+                <li className="hover:underline">CONTACT</li>
               </NavLink>
             </ul>
           </div>

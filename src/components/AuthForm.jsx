@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../pages/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 const AuthForm = ({
   title,
@@ -21,7 +21,7 @@ const AuthForm = ({
   const backendUrl = import.meta.env.VITE_API_BACKEND_URL;
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext); //Importamos la función para almacenar datos del Login
+  const { login, register } = useContext(AuthContext); //Importamos la función para almacenar datos del Login
 
   // Esquema de validación con Yup
   const validationSchema = Yup.object({
@@ -90,62 +90,27 @@ const AuthForm = ({
     setLoading(true); // Activar estado de carga
     setError(""); // Limpiar cualquier error anterior
 
-    const backendUrl = import.meta.env.VITE_API_BACKEND_URL;
     console.log("values", values);
     if (esLogin) {
-      // Recibir los datos del Login
-      const response = await axios
-        .post(`${backendUrl}/api/auth/login`, {
-          email: values.email,
-          password: values.password,
-        })
-        .then((response) => {
-          console.log("Datos del user", response);
-          if (response.status === 200) {
-            console.log("User fetched successfully:", response.data);
-            login(response.data.user);
-            navigate("/");
-          } else if (response.status === 404) {
-            console.error("No user found");
-            throw new Error("No user found");
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching doctors:", error);
-          setError("Error fetching doctos");
-        });
-      return response;
+      const resultLogin = await login(values.email, values.password);
+      if (resultLogin.success) {
+        navigate("/");
+      } else {
+        setError(resultLogin.message);
+      }
     } else {
-      try {
-        // Enviar los datos a la API de registro
-        const response = await axios.post(`${backendUrl}/api/auth/register`, {
-          email: values.email,
-          password: values.password,
-          first_name: values.nombre,
-          last_name: values.apellido_paterno,
-          role_id: 2, // Valor fijo para el rol (por ejemplo, "2" para el rol de usuario)
-          phone_number: values.phone_number,
-        });
-
+      const resultRegister = await register(
+        values.email,
+        values.password,
+        values.nombre,
+        values.apellido_paterno,
+        values.phone_number
+      );
+      if (resultRegister.success) {
         // Si la respuesta es exitosa, mostramos el modal de éxito
         setShowModal(true);
-      } catch (err) {
-        // Depurar el error en la consola para ver cómo está estructurado
-        console.error("Error al registrar: ", err.response);
-
-        // Verificar si el error es un error 400
-        if (err.response && err.response.status === 400) {
-          console.log("Detalles del error 400:", err.response.data);
-
-          // Acceder directamente a 'mensaje' en la respuesta del error
-          if (err.response.data && err.response.data.mensaje) {
-            setError(err.response.data.mensaje); // Mostrar el mensaje del backend (correo ya registrado)
-          } else {
-            setError("Hubo un error al registrar. Intenta nuevamente.");
-          }
-        } else {
-          setError("Hubo un error al registrar. Intenta nuevamente.");
-        }
+      } else {
+        setError(resultRegister.message);
       }
     }
   };
@@ -368,7 +333,7 @@ const AuthForm = ({
       {showModal && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg w-80 sm:w-96">
-            <h2 className="text-xl font-semibold text-blue-600">
+            <h2 className="text-xl font-semibold text-primary-600">
               ¡Registro Exitoso!
             </h2>
             <p className="text-sm text-gray-600 mt-2">
@@ -380,7 +345,7 @@ const AuthForm = ({
                 localStorage.setItem("isLogin", true); // Guardamos el estado en localStorage
                 window.location.reload(); // Refrescar la página para actualizar el estado
               }}
-              className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
+              className="mt-4 w-full bg-primary text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
             >
               Aceptar
             </button>
